@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Cuestionario MF1443_3 · Materiales didácticos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: #f4f7fc;
+            margin: 0;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .examen-wrapper {
+            max-width: 950px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px -10px rgba(0,20,40,0.25);
+            overflow: hidden;
+            padding: 30px 30px 40px 30px;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: #003057;
+            margin: 0 0 5px 0;
+            border-left: 8px solid #ff8c42;
+            padding-left: 20px;
+        }
+        .subtitulo {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin: 5px 0 10px 25px;
+            font-weight: 400;
+        }
+        .datos-cabecera {
+            background: #e9edf2;
+            padding: 15px 25px;
+            border-radius: 40px;
+            margin: 20px 0 30px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: #1a2b3c;
+        }
+        .instrucciones {
+            background: #fdf8f0;
+            border-left: 5px solid #ffb347;
+            padding: 12px 20px;
+            border-radius: 20px;
+            margin: 0 0 30px 0;
+            font-size: 0.95rem;
+        }
+        .pregunta {
+            background: #ffffff;
+            border: 1px solid #d4deec;
+            border-radius: 28px;
+            padding: 18px 25px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+            transition: all 0.15s;
+        }
+        .pregunta:hover {
+            border-color: #a0b9d4;
+            background: #fafcff;
+        }
+        .pregunta-texto {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            color: #0a1a2a;
+            padding-right: 10px;
+        }
+        .opciones {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-left: 8px;
+        }
+        .opcion {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 60px;
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            transition: 0.1s;
+        }
+        .opcion:hover {
+            background: #e0e9f3;
+            border-color: #bacfe5;
+        }
+        .opcion input[type="radio"] {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #2c5282;
+            border-radius: 50%;
+            margin: 0;
+            background: white;
+            transition: 0.1s;
+            cursor: pointer;
+        }
+        .opcion input[type="radio"]:checked {
+            background: #2c5282;
+            border-color: #2c5282;
+            box-shadow: inset 0 0 0 5px white;
+        }
+        .opcion-label {
+            font-size: 1.02rem;
+            color: #1a2e44;
+            flex: 1;
+        }
+        .resultado {
+            margin-top: 12px;
+            font-size: 1rem;
+            padding: 12px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        .correcta {
+            background: #dff0d8;
+            color: #1f5f2e;
+            border: 1px solid #a5d6a5;
+            display: flex;
+        }
+        .incorrecta {
+            background: #ffe1de;
+            color: #aa302a;
+            border: 1px solid #fbb5af;
+            display: flex;
+        }
+        .botonera {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 35px;
+            border-top: 2px dashed #b3c7e0;
+            padding-top: 30px;
+        }
+        .btn {
+            background: white;
+            border: 2px solid #1f4973;
+            color: #1f4973;
+            padding: 12px 32px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .btn:hover {
+            background: #1f4973;
+            color: white;
+            border-color: #1f4973;
+        }
+        .btn.primario {
+            background: #ff8c42;
+            border-color: #ff8c42;
+            color: white;
+        }
+        .btn.primario:hover {
+            background: #e67329;
+            border-color: #e67329;
+        }
+        .contador {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #003057;
+            background: #e2eaf6;
+            padding: 8px 30px;
+            border-radius: 60px;
+        }
+        .feedback-global {
+            margin: 20px 0 0 0;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        .nota-final {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1d4e6f;
+        }
+        hr {
+            border: 1px solid #cedcea;
+            margin: 25px 0;
+        }
+        .leyenda {
+            font-size: 0.9rem;
+            color: #4b5d73;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .numero-pregunta {
+            background: #cedcea;
+            border-radius: 40px;
+            padding: 3px 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 8px;
+            color: #002856;
+        }
+        .pregunta.bloqueada .opcion {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .pregunta.bloqueada .opcion input {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div class="examen-wrapper" id="examenWrapper">
+    <h1>📋 MF1443_3 · Materiales didácticos</h1>
+    <div class="subtitulo">Selección, elaboración, adaptación y utilización</div>
+
+    <div class="datos-cabecera">
+        <span>🧑‍🏫 NOMBRE: __________________________</span>
+        <span>📅 FECHA: _______________</span>
+    </div>
+
+    <div class="instrucciones">
+        ✅ 40 preguntas tipo test. <strong>Cada dos errores resta una correcta.</strong><br>
+        Pulsa en la opción que consideres válida. Inmediatamente verás si es correcta ❌ o correcta ✅.
+    </div>
+
+    <div id="preguntas-container"></div>
+
+    <div class="botonera">
+        <button class="btn" id="reiniciarBtn">↻ Reiniciar test</button>
+        <span class="contador" id="contadorAciertos">0 / 40</span>
+        <button class="btn primario" id="evaluarBtn">✔️ Comprobar todas</button>
+    </div>
+
+    <!-- feedback dinámico -->
+    <div id="feedbackGlobal" class="feedback-global"></div>
+
+    <hr>
+    <div class="leyenda">
+        ⚡ Cada respuesta se bloquea tras elegir. Puedes reiniciar cuando quieras.
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ----- BASE DE DATOS DE PREGUNTAS (literal del examen) -----
+        const preguntas = [
+            // 1
+            { pregunta: "Los recursos didácticos se definen como:",
+              opciones: ["Los contenidos seleccionados o elaborados por el formador en formato físico o digital.",
+                         "Los medios, herramientas o instrumentos disponibles para el docente que le ayudarán a guiar al alumnado.",
+                         "Exclusivamente los recursos informáticos y audiovisuales presentes en el aula."],
+              correcta: 1 }, // índice 1 (segunda opción)
+            // 2
+            { pregunta: "Los materiales didácticos elaborados deben adaptarse a la finalidad marcada por:",
+              opciones: ["La disponibilidad de recursos económicos del centro.",
+                         "Los objetivos programados.",
+                         "La moda pedagógica del momento."],
+              correcta: 1 },
+            // 3
+            { pregunta: "Para hacer frente a una hora de clase, ¿cuántas páginas de contenido se pueden necesitar como referencia?",
+              opciones: ["10 páginas.", "20 páginas.", "30 páginas."],
+              correcta: 1 },
+            // 4
+            { pregunta: "La normativa que regula la propiedad intelectual en España es:",
+              opciones: ["La Ley Orgánica 3/2022.",
+                         "El Real Decreto Legislativo 1/1996.",
+                         "La Orden ESS/1897/2013."],
+              correcta: 1 },
+            // 5
+            { pregunta: "¿Cuál de las siguientes NO es una característica que deben reunir los recursos gráficos de calidad?",
+              opciones: ["Visibilidad.", "Complejidad.", "Sencillez."],
+              correcta: 1 },
+            // 6
+            { pregunta: "La distribución del aula más recomendada si se van a usar recursos gráficos, ya que permite movilidad e interacción, es la disposición:",
+              opciones: ["En líneas horizontales.", "En grupos de cuatro.", "En U."],
+              correcta: 2 },
+            // 7
+            { pregunta: "El recurso gráfico que permite combinar la comunicación oral con el recurso visual y en el que la información permanece, permitiendo volver a contenidos anteriores, es:",
+              opciones: ["La pizarra.", "El rotafolio.", "El retroproyector."],
+              correcta: 1 },
+            // 8
+            { pregunta: "Para garantizar la continuidad de la acción formativa en caso de fallo del retroproyector, es recomendable:",
+              opciones: ["Suspender la sesión hasta reparar el equipo.",
+                         "Llevar copias impresas del contenido para facilitarlas al alumnado.",
+                         "Intentar cambiar la lámpara del proyector durante la clase."],
+              correcta: 1 },
+            // 9
+            { pregunta: "Un material didáctico gráfico impreso se define como aquel que:",
+              opciones: ["Solo utiliza elementos textuales en formato papel.",
+                         "Emplea y combina elementos del lenguaje textual o gráfico y ha sido editado en formato papel.",
+                         "Es elaborado exclusivamente por el alumnado durante el curso."],
+              correcta: 1 },
+            // 10
+            { pregunta: "¿Cuál de las siguientes NO es una función de los materiales didácticos impresos?",
+              opciones: ["Servir de guía didáctica para estructurar el aprendizaje.",
+                         "Sustituir por completo la labor del docente en el aula.",
+                         "Incentivar la reflexión a través del uso de la prensa."],
+              correcta: 1 },
+            // 11
+            { pregunta: "Los elementos que se deben tener en cuenta en el diseño gráfico de un material didáctico impreso son:",
+              opciones: ["Tipografía, párrafo, color y página.",
+                         "Solo la tipografía y el color.",
+                         "La encuadernación y el tipo de papel."],
+              correcta: 0 },
+            // 12
+            { pregunta: "La variante de la letra cuyos trazos son más gruesos para enfatizar y llamar la atención se denomina:",
+              opciones: ["Cursiva.", "Negrita.", "Regular."],
+              correcta: 1 },
+            // 13
+            { pregunta: "El tipo de párrafo que tiene todas las líneas llenas y no utiliza sangrías, dejando un espacio entre párrafos para diferenciarlos, se denomina:",
+              opciones: ["Párrafo español.", "Párrafo alemán.", "Párrafo francés."],
+              correcta: 1 },
+            // 14
+            { pregunta: "Para textos largos, ¿qué tipo de alineación facilita la legibilidad?",
+              opciones: ["Centrada.", "Derecha.", "Izquierda o justificada."],
+              correcta: 2 },
+            // 15
+            { pregunta: "El modelo de color que se debe utilizar cuando los materiales van a ser impresos en formato papel es:",
+              opciones: ["RGB.", "CMYK.", "HTML."],
+              correcta: 1 },
+            // 16
+            { pregunta: "El documento donde se recogen todas las características relacionadas con la acción formativa que se va a impartir se denomina:",
+              opciones: ["Programación didáctica.", "Guion didáctico.", "Expediente del curso."],
+              correcta: 1 },
+            // 17
+            { pregunta: "Los objetivos, la metodología y el sistema de evaluación son elementos:",
+              opciones: ["Generales del guion didáctico.", "Específicos del guion didáctico.", "Complementarios del guion didáctico."],
+              correcta: 1 },
+            // 18
+            { pregunta: "La fatiga derivada de una mala postura corporal se denomina:",
+              opciones: ["Fatiga visual.", "Fatiga mental.", "Fatiga postural."],
+              correcta: 2 },
+            // 19
+            { pregunta: "El proyector multimedia, conectado a un equipo informático, permite proyectar:",
+              opciones: ["Únicamente presentaciones de PowerPoint.",
+                         "Vídeos, fotografías, aplicaciones informáticas o presentaciones multimedia.",
+                         "Exclusivamente transparencias de acetato."],
+              correcta: 1 },
+            // 20
+            { pregunta: "Al finalizar una sesión con el proyector multimedia, se debe:",
+              opciones: ["Desconectar el cable de alimentación inmediatamente después de apagarlo con el mando.",
+                         "Esperar a que el ventilador se detenga para desconectar el cable de alimentación.",
+                         "Dejarlo encendido para la siguiente sesión."],
+              correcta: 1 },
+            // 21
+            { pregunta: "En el diseño de diapositivas, la organización de los elementos para que transmitan un mensaje claro y de forma armónica se refiere a la:",
+              opciones: ["Claridad.", "Unidad.", "Composición."],
+              correcta: 2 },
+            // 22
+            { pregunta: "¿Qué significan las siglas HTTP?",
+              opciones: ["Hypertext Transfer Protocol.",
+                         "High Technology Teaching Program.",
+                         "Home Tool for Teaching Practice."],
+              correcta: 0 },
+            // 23
+            { pregunta: "Para considerar que un sitio web está actualizado, no deben haber transcurrido más de:",
+              opciones: ["Un mes desde su última actualización.",
+                         "Dos meses desde su última actualización.",
+                         "Seis meses desde su última actualización."],
+              correcta: 1 },
+            // 24
+            { pregunta: "La pizarra digital interactiva (PDI) se compone de los siguientes elementos básicos:",
+              opciones: ["Ordenador, proyector multimedia, pantalla interactiva y lápiz interactivo.",
+                         "Ordenador, pantalla de televisión y mando a distancia.",
+                         "Proyector de transparencias y pantalla blanca."],
+              correcta: 0 },
+            // 25
+            { pregunta: "Una ventaja del uso de la PDI es:",
+              opciones: ["Su bajo coste en comparación con la pizarra tradicional.",
+                         "Que no requiere ningún tipo de mantenimiento.",
+                         "Que permite guardar, imprimir y reutilizar todo lo expuesto y modificado sobre ella."],
+              correcta: 2 },
+            // 26
+            { pregunta: "La comunicación que se produce en un foro o a través del correo electrónico, donde los participantes no están conectados al mismo tiempo, se denomina:",
+              opciones: ["Comunicación síncrona.", "Comunicación asíncrona.", "Comunicación unidireccional."],
+              correcta: 1 },
+            // 27
+            { pregunta: "El tiempo de espera recomendado para que los participantes ingresen a una sala de chat antes de iniciar la sesión formal es de:",
+              opciones: ["5 minutos.", "10 minutos.", "15 minutos."],
+              correcta: 1 },
+            // 28
+            { pregunta: "La función del docente como moderador en un chat incluye:",
+              opciones: ["Escribir la mayoría de los mensajes para mantener el debate activo.",
+                         "Conceder la palabra de forma ordenada y reconducir el debate si es necesario.",
+                         "Ignorar las preguntas de los participantes para fomentar su autonomía."],
+              correcta: 1 },
+            // 29
+            { pregunta: "Las plataformas de teleformación de código abierto, como Moodle, se clasifican como:",
+              opciones: ["Plataformas comerciales.", "Plataformas no comerciales.", "Plataformas de desarrollo a medida."],
+              correcta: 1 },
+            // 30
+            { pregunta: "La primera fase en el diseño y desarrollo de un videotutorial es:",
+              opciones: ["La grabación.", "La edición.", "La planificación."],
+              correcta: 2 },
+            // 31
+            { pregunta: "Un efecto positivo del impacto de las TIC en la formación es:",
+              opciones: ["El aumento de la brecha digital.", "La democratización de la formación.", "La pseudoinformación."],
+              correcta: 1 },
+            // 32
+            { pregunta: "El conjunto de derechos que tienen los autores respecto a las obras que han creado se denomina:",
+              opciones: ["Copyright.", "Propiedad intelectual.", "Licencia Creative Commons."],
+              correcta: 1 },
+            // 33
+            { pregunta: "Las medidas de protección medioambiental en la elaboración de materiales didácticos incluyen:",
+              opciones: ["Imprimir siempre en papel nuevo y a una sola cara.",
+                         "Utilizar preferentemente papel reciclado y borradores antes de imprimir.",
+                         "Desechar los cartuchos de tinta usados en la basura común."],
+              correcta: 1 },
+            // 34
+            { pregunta: "¿Qué tipo de sangría tiene la primera línea llena y las demás sangradas?",
+              opciones: ["Sangría ordinaria.", "Sangría francesa.", "Sangría alemana."],
+              correcta: 1 },
+            // 35
+            { pregunta: "El dispositivo que permite compartir Internet con diferentes dispositivos a través de cable o de forma inalámbrica se denomina:",
+              opciones: ["Módem.", "Router.", "Navegador."],
+              correcta: 1 },
+            // 36
+            { pregunta: "Para usar adecuadamente la pizarra, se debe comprobar que:",
+              opciones: ["La luz que incide sobre ella produce reflejos para que todos la vean mejor.",
+                         "Está totalmente limpia antes de iniciar la clase y que se cuenta con tizas o rotuladores en buen estado.",
+                         "Se utiliza un tamaño de letra pequeño para poder escribir más contenido."],
+              correcta: 1 },
+            // 37
+            { pregunta: "Un recurso didáctico de infraestructura es:",
+              opciones: ["Un programa informático.",
+                         "El tamaño y accesibilidad de las aulas.",
+                         "Un artículo de una revista especializada."],
+              correcta: 1 },
+            // 38
+            { pregunta: "La bibliografía en un guion didáctico se considera un elemento:",
+              opciones: ["Específico.", "General.", "Prescindible."],
+              correcta: 1 },
+            // 39
+            { pregunta: "El exceso de información disponible que puede llegar a saturar e impedir progresar se conoce como:",
+              opciones: ["Infoxicación.", "Pseudoinformación.", "Brecha digital."],
+              correcta: 0 },
+            // 40
+            { pregunta: "¿Cuál de las siguientes herramientas de comunicación es síncrona?",
+              opciones: ["Foro.", "Correo electrónico.", "Chat."],
+              correcta: 2 }
+        ];
+
+        const container = document.getElementById('preguntas-container');
+        let aciertos = 0;
+        let respondidas = new Array(preguntas.length).fill(false);
+        let aciertosArray = new Array(preguntas.length).fill(false);
+
+        function renderPreguntas() {
+            let htmlStr = '';
+            for (let i = 0; i < preguntas.length; i++) {
+                const p = preguntas[i];
+                const idx = i;
+                const bloqueada = respondidas[idx] ? 'bloqueada' : '';
+
+                htmlStr += `<div class="pregunta ${bloqueada}" data-idx="${idx}" id="preg-${idx}">`;
+                htmlStr += `<div class="numero-pregunta">${idx+1}. </div>`;
+                htmlStr += `<div class="pregunta-texto">${p.pregunta}</div>`;
+                htmlStr += `<div class="opciones">`;
+
+                p.opciones.forEach((opcionTexto, optIndex) => {
+                    const name = `preg_${idx}`;
+                    htmlStr += `
+                        <div class="opcion" data-optidx="${optIndex}">
+                            <input type="radio" name="${name}" value="${optIndex}" id="${name}_${optIndex}">
+                            <label class="opcion-label" for="${name}_${optIndex}">${opcionTexto}</label>
+                        </div>
+                    `;
+                });
+
+                htmlStr += `<div class="resultado" id="result-${idx}"></div>`;
+                htmlStr += `</div></div>`;
+            }
+            container.innerHTML = htmlStr;
+            attachEventListeners();
+            actualizarContador();
+        }
+
+        function attachEventListeners() {
+            // radios: al cambiar, verificar y bloquear
+            document.querySelectorAll('.opcion input[type="radio"]').forEach(radio => {
+                radio.removeEventListener('change', radioHandler);
+                radio.addEventListener('change', radioHandler);
+            });
+        }
+
+        function radioHandler(e) {
+            const radio = e.target;
+            const preguntaDiv = radio.closest('.pregunta');
+            if (!preguntaDiv) return;
+            const idx = parseInt(preguntaDiv.dataset.idx);
+            if (respondidas[idx]) return; // ya bloqueada
+
+            const opcionElegida = parseInt(radio.value);
+            const correcta = preguntas[idx].correcta;
+            const esCorrecta = (opcionElegida === correcta);
+
+            // guardar resultado
+            respondidas[idx] = true;
+            aciertosArray[idx] = esCorrecta;
+            actualizarContador();
+
+            // mostrar feedback en caja
+            const resultDiv = document.getElementById(`result-${idx}`);
+            if (resultDiv) {
+                resultDiv.className = `resultado ${esCorrecta ? 'correcta' : 'incorrecta'}`;
+                resultDiv.style.display = 'flex';
+                resultDiv.innerHTML = esCorrecta ? '✅ Correcto' : '❌ Incorrecto';
+            }
+
+            // bloquear visualmente la pregunta
+            preguntaDiv.classList.add('bloqueada');
+
+            // deshabilitar todos los radios de esa pregunta
+            preguntaDiv.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+        }
+
+        function actualizarContador() {
+            aciertos = aciertosArray.filter(val => val === true).length;
+            document.getElementById('contadorAciertos').innerText = `${aciertos} / 40`;
+        }
+
+        function comprobarTodas() {
+            for (let i = 0; i < preguntas.length; i++) {
+                if (respondidas[i]) continue; // ya respondida
+                const preguntaDiv = document.getElementById(`preg-${i}`);
+                if (!preguntaDiv) continue;
+
+                // forzar que marque la correcta? No, dejamos que el alumno decida.
+                // pero podemos iluminar en rojo la no respondida (opcional) – lo dejamos pasar.
+                // solo indicamos que está sin responder.
+                const resultDiv = document.getElementById(`result-${i}`);
+                if (resultDiv) {
+                    resultDiv.className = 'resultado incorrecta';
+                    resultDiv.style.display = 'flex';
+                    resultDiv.innerHTML = '⏳ Sin responder';
+                }
+                // pero no la bloqueamos, seguimos permitiendo respuesta
+            }
+        }
+
+        function reiniciarTodo() {
+            respondidas = new Array(preguntas.length).fill(false);
+            aciertosArray = new Array(preguntas.length).fill(false);
+            aciertos = 0;
+            actualizarContador();
+
+            // re-renderizar todo (quita clases y restaura radios)
+            renderPreguntas();
+
+            // limpiar feedback global
+            document.getElementById('feedbackGlobal').innerHTML = '';
+        }
+
+        function evaluarTodoYMostrar() {
+            comprobarTodas();
+            // contador ya está actualizado
+            const fallos = 40 - aciertos;
+            const penalizacion = Math.floor(fallos / 2);
+            const notaRaw = aciertos - penalizacion;
+            const notaFinal = Math.max(0, notaRaw); // no negativa
+
+            let mensaje = `✅ Aciertos: ${aciertos}   ❌ Fallos: ${fallos}   (penalización: -${penalizacion})<br>`;
+            mensaje += `<span style="font-size:1.8rem; font-weight:700;">Puntuación: ${notaFinal} / 40</span><br>`;
+            if (notaFinal >= 30) mensaje += '🎉 Muy bien';
+            else if (notaFinal >= 20) mensaje += '👍 Puedes mejorar';
+            else mensaje += '📖 Repasa el manual';
+
+            document.getElementById('feedbackGlobal').innerHTML = mensaje;
+        }
+
+        // inicial
+        renderPreguntas();
+
+        document.getElementById('reiniciarBtn').addEventListener('click', reiniciarTodo);
+        document.getElementById('evaluarBtn').addEventListener('click', evaluarTodoYMostrar);
+    })();
+</script>
+</body>
+</html>
