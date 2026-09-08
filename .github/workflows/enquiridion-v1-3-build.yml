@@ -1,0 +1,50 @@
+name: Build Enquiridion v1.3 Merged APK
+
+on:
+  push:
+    branches:
+      - build-enquiridion-v1-3-merged
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore v1.3 project
+        run: |
+          mkdir -p work
+          cat build-input/v13/chunk_*.b64 | tr -d '\n\r ' | base64 -d > work/project.zip
+          unzip -t work/project.zip >/dev/null
+          unzip -q work/project.zip -d work
+          test -f work/enquiridion/app/build.gradle
+          grep -nE 'applicationId|versionCode|versionName' work/enquiridion/app/build.gradle
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Compile APK
+        run: gradle -p work/enquiridion :app:assembleDebug --stacktrace
+
+      - name: Verify APK
+        run: |
+          test -s work/enquiridion/app/build/outputs/apk/debug/app-debug.apk
+          cp work/enquiridion/app/build/outputs/apk/debug/app-debug.apk Enquiridion-Estoico-v1.3-Pixel9.apk
+          sha256sum Enquiridion-Estoico-v1.3-Pixel9.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Enquiridion-Estoico-v1.3-Pixel9
+          path: Enquiridion-Estoico-v1.3-Pixel9.apk
+          if-no-files-found: error
